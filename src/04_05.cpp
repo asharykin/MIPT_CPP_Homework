@@ -3,7 +3,7 @@
 
 template<int A, int B> struct CheckOverflow
 {
-    static inline bool const value = A <= std::numeric_limits<int>::max() - B;
+    static inline bool const value = A > std::numeric_limits<int>::max() - B;
 };
 
 template<int N> struct Fibonacci
