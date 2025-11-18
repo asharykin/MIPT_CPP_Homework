@@ -3,11 +3,9 @@
 #include <string>
 #include <utility>
 
-template <typename ... Ts>
-class Tuple;
+template <typename ... Ts> class Tuple;
 
-template <typename T, typename ... Ts>
-class Tuple<T, Ts ...>
+template <typename T, typename ... Ts> class Tuple<T, Ts ...>
 {
 public:
     constexpr Tuple(T&& x, Ts&& ... xs) : m_head(std::forward<T>(x)), m_tail(std::forward<Ts>(xs)...) { }
@@ -33,8 +31,7 @@ private:
     Tuple<Ts ...> m_tail;
 };
 
-template <>
-class Tuple<>
+template <> class Tuple<>
 {
 public:
     constexpr std::size_t size() const
