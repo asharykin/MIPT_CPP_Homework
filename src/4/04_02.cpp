@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 template<typename T> T max(T val)
@@ -30,9 +31,15 @@ template<typename ... Ts> double average(Ts ... rest)
     return sum(rest...) / sizeof...(rest);
 }
 
-int main() {
-    std::cout << "max: " << max(1.1, 2.2, 3.3, 4.4) << std::endl;
-    std::cout << "min: " << min(1.1, 2.2, 3.3, 4.4) << std::endl;
-    std::cout << "sum: " << sum(1.1, 2.2, 3.3, 4.4) << std::endl;
-    std::cout << "average: " << average(1.1, 2.2, 3.3, 4.4) << std::endl;
+bool equal(double x, double y, double epsilon = 0.00001)
+{
+    return std::abs(x - y) < epsilon;
+}
+
+int main()
+{
+    assert(equal(max(1.1, 2.2, 3.3, 4.4), 4.4));
+    assert(equal(min(1.1, 2.2, 3.3, 4.4), 1.1));
+    assert(equal(sum(1.1, 2.2, 3.3, 4.4), 11));
+    assert(equal(average(1.1, 2.2, 3.3, 4.4), 2.75));
 }
