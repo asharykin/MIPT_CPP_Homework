@@ -3,19 +3,22 @@
 #include <numbers>
 #include <vector>
 
-class Shape {
+class Shape
+{
 public:
     virtual ~Shape() = default;
     virtual double perimeter() const = 0;
     virtual double area() const = 0;
 };
 
-class Triangle : public Shape {
+class Triangle : public Shape
+{
 public:
     Triangle(double a, double b, double c) : m_a(a), m_b(b), m_c(c)
     {
         if (m_a <= 0.0 || m_b <= 0.0 || m_c <= 0.0 ||
-            (m_a + m_b <= m_c) || (m_a + m_c <= m_b) || (m_b + m_c <= m_a)) {
+            (m_a + m_b <= m_c) || (m_a + m_c <= m_b) || (m_b + m_c <= m_a))
+        {
             m_a = m_b = m_c = 0.0;
         }
     }
@@ -37,15 +40,18 @@ private:
     double m_c;
 };
 
-class Square final : public Shape {
+class Square final : public Shape
+{
 public:
     Square(double side) : m_side(side > 0.0 ? side : 0.0) { }
 
-    double perimeter() const override {
+    double perimeter() const override
+    {
         return 4.0 * m_side;
     }
 
-    double area() const override {
+    double area() const override
+    {
         return m_side * m_side;
     }
 
@@ -53,15 +59,18 @@ private:
     double m_side;
 };
 
-class Circle final : public Shape {
+class Circle final : public Shape
+{
 public:
     Circle(double radius) : m_radius(radius > 0.0 ? radius : 0.0) { }
 
-    double perimeter() const override {
+    double perimeter() const override
+    {
         return 2.0 * std::numbers::pi * m_radius;
     }
 
-    double area() const override {
+    double area() const override
+    {
         return std::numbers::pi * m_radius * m_radius;
     }
 
@@ -74,7 +83,8 @@ bool equal(double x, double y, double epsilon = 0.000001)
     return std::abs(x - y) < epsilon;
 }
 
-int main() {
+int main()
+{
     std::vector<Shape*> shapes;
 
     shapes.push_back(new Triangle(3.0, 4.0, 5.0));
@@ -90,7 +100,8 @@ int main() {
     assert(equal(shapes[2]->perimeter(), 2.0 * std::numbers::pi));
     assert(equal(shapes[2]->area(), std::numbers::pi));
 
-    for (Shape* s : shapes) {
+    for (Shape* s : shapes)
+    {
         delete s;
     }
     shapes.clear();
