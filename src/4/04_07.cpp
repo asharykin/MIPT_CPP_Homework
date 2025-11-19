@@ -52,7 +52,8 @@ template <typename T, typename R = Ratio<1>> struct Duration
 };
 
 template <typename T1, typename R1, typename T2, typename R2>
-constexpr auto operator+(Duration<T1, R1> const& lhs, Duration<T2, R2> const& rhs) {
+constexpr auto operator+(Duration<T1, R1> const& lhs, Duration<T2, R2> const& rhs)
+{
     using ratio_t = Ratio<1, sum<R1, R2>::den>;
     auto x = (lhs.x * ratio_t::den / R1::den * R1::num +
                rhs.x * ratio_t::den / R2::den * R2::num);
@@ -60,11 +61,13 @@ constexpr auto operator+(Duration<T1, R1> const& lhs, Duration<T2, R2> const& rh
 }
 
 template <typename T1, typename R1, typename T2, typename R2>
-constexpr auto operator-(Duration<T1, R1> const& lhs, Duration<T2, R2> const& rhs) {
+constexpr auto operator-(Duration<T1, R1> const& lhs, Duration<T2, R2> const& rhs)
+{
     return lhs + Duration<T2, Ratio<-R2::num, R2::den>>(rhs.x);
 }
 
-int main() {
+int main()
+{
     using R1 = Ratio<1, 2>;
     using R2 = Ratio<1, 3>;
 
