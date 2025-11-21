@@ -16,7 +16,7 @@ public:
 
     Vector(std::initializer_list<int> list) : m_size(list.size()), m_capacity(list.size())
     {
-        m_array = new int[m_capacity] {};
+        m_array = m_size ? new int[m_capacity] {} : nullptr;
         std::ranges::copy(list, m_array);
     }
 
@@ -61,9 +61,6 @@ public:
             std::size_t new_capacity = m_capacity * 2;
             int* new_array = new int[new_capacity] {};
             std::ranges::copy(m_array, m_array + m_size, new_array);
-            for (std::size_t i = 0; i < m_size; i++) {
-                new_array[i] = m_array[i];
-            }
             delete[] m_array;
             m_array = new_array;
             m_capacity = new_capacity;
