@@ -49,7 +49,8 @@ int intersection_area(std::vector<Rectangle> const& rectangles)
     return intersection.area();
 }
 
-Rectangle minimum_bounding_rectangle(const std::vector<Rectangle>& rectangles) {
+Rectangle minimum_bounding_rectangle(const std::vector<Rectangle>& rectangles)
+{
     if (rectangles.empty())
     {
         return Rectangle {};
@@ -61,7 +62,8 @@ Rectangle minimum_bounding_rectangle(const std::vector<Rectangle>& rectangles) {
     int max_x = rectangles[0].x2;
     int max_y = rectangles[0].y2;
 
-    for (Rectangle const& rect : rectangles) {
+    for (Rectangle const& rect : rectangles)
+    {
         min_x = std::min(min_x, rect.x1);
         min_y = std::min(min_y, rect.y1);
         max_x = std::max(max_x, rect.x2);
@@ -71,7 +73,8 @@ Rectangle minimum_bounding_rectangle(const std::vector<Rectangle>& rectangles) {
     return Rectangle {min_x, min_y, max_x, max_y};
 }
 
-int main() {
+int main()
+{
     // One rectangle
     {
         std::vector rects = {Rectangle {0, 0, 2, 1}};
