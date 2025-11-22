@@ -1,7 +1,8 @@
 #include <array>
 #include <cmath>
 
-consteval double compute_e(double eps) {
+consteval double compute_e(double eps)
+{
     double m = 1.0;
     double e = m;
     int i = 1;
@@ -14,7 +15,8 @@ consteval double compute_e(double eps) {
     return e;
 }
 
-consteval double compute_pi(double eps) {
+consteval double compute_pi(double eps)
+{
     double m = 1.0;
     double pi = m;
     int i = 1;
@@ -27,7 +29,8 @@ consteval double compute_pi(double eps) {
     return 4 * pi;
 }
 
-int main() {
+int main()
+{
     constexpr std::array epsilons = {0.01, 0.0001, 0.00001};
 
     constexpr double e1 = compute_e(epsilons[0]);
