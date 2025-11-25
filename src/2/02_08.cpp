@@ -24,7 +24,8 @@ std::size_t compute_collatz_length_for_i(unsigned long long int i, std::vector<s
     return length;
 }
 
-int main() {
+int main()
+{
     std::size_t max_length = 0;
     unsigned long long max_length_n = 0;
 
