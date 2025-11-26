@@ -4,9 +4,6 @@
 class List
 {
 public:
-
-    List() : m_head(nullptr), m_tail(nullptr) { }
-
     ~List()
     {
         while (!empty())
@@ -25,8 +22,8 @@ public:
         Node* current = m_head;
         while (current != nullptr)
         {
-            std::cout << current->value << ' ';
-            current = current->next;
+            std::cout << current->m_value << ' ';
+            current = current->m_next;
         }
         std::cout << '\n';
     }
@@ -41,7 +38,7 @@ public:
         }
         else
         {
-            node->next = m_head;
+            node->m_next = m_head;
             m_head = node;
         }
     }
@@ -56,7 +53,7 @@ public:
         }
         else
         {
-            m_tail->next = node;
+            m_tail->m_next = node;
             m_tail = node;
         }
     }
@@ -68,7 +65,7 @@ public:
             return;
         }
         Node* tmp = m_head;
-        m_head = m_head->next;
+        m_head = m_head->m_next;
         delete tmp;
         if (m_head == nullptr)
         {
@@ -88,13 +85,13 @@ public:
             return;
         }
         Node* current = m_head;
-        while (current->next != m_tail)
+        while (current->m_next != m_tail)
         {
-            current = current->next;
+            current = current->m_next;
         }
         delete m_tail;
         m_tail = current;
-        m_tail->next = nullptr;
+        m_tail->m_next = nullptr;
     }
 
     int get() const
@@ -106,26 +103,26 @@ public:
         Node* slow = m_head;
         Node* fast = m_head;
         Node* prev = nullptr;
-        while (fast != nullptr && fast->next != nullptr)
+        while (fast != nullptr && fast->m_next != nullptr)
         {
             prev = slow;
-            slow = slow->next;
-            fast = fast->next->next;
+            slow = slow->m_next;
+            fast = fast->m_next->m_next;
         }
-        return (fast == nullptr && prev != nullptr) ? prev->value : slow->value;
+        return (fast == nullptr && prev != nullptr) ? prev->m_value : slow->m_value;
     }
 
 private:
     struct Node
     {
-        int value;
-        Node* next;
+        int m_value;
+        Node* m_next;
 
-        Node(int val) : value(val), next(nullptr) { }
+        Node(int val) : m_value(val), m_next(nullptr) { }
     };
 
-    Node* m_head;
-    Node* m_tail;
+    Node* m_head = nullptr;
+    Node* m_tail =nullptr;
 };
 
 int main()
