@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-
 double calculate_max(double arr[], int n)
 {
     double max = arr[0];
@@ -75,13 +74,13 @@ double calculate_standard_deviation(double arr[], int n)
 
 int main()
 {
-    std::cout << "Enter size: " << std::endl;
+    std::cout << "Enter collection size: " << std::endl;
     int n;
     std::cin >> n;
 
     if (n <= 0)
     {
-        std::cerr << "Incorrect size" << std::endl;
+        std::cerr << "Incorrect collection size" << std::endl;
         return 1;
     }
 
