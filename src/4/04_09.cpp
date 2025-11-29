@@ -107,14 +107,14 @@ using decay_t = typename decay<T>::type;
 
 int main()
 {
-    struct MyStruct {};
-    class MyClass {};
+    struct My_Struct {};
+    class My_Class {};
     static_assert(is_class_v<double> == false);
     static_assert(is_class_v<std::string> == true);
-    static_assert(is_class_v<MyStruct> == true);
-    static_assert(is_class_v<MyStruct*> == false);
-    static_assert(is_class_v<MyClass> == true);
-    static_assert(is_class_v<MyClass&> == false);
+    static_assert(is_class_v<My_Struct> == true);
+    static_assert(is_class_v<My_Struct*> == false);
+    static_assert(is_class_v<My_Class> == true);
+    static_assert(is_class_v<My_Class&> == false);
 
     static_assert(std::is_same_v<add_const_t<int>, const int>);
     static_assert(std::is_same_v<remove_const_t<const int>, int>);
