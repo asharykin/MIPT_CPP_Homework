@@ -1,0 +1,118 @@
+#include <string>
+#include <type_traits>
+
+template <typename T> class is_class
+{
+private :
+    template <typename U > static std::false_type test(...);
+
+    template <typename U> static std::true_type test
+    (
+        int,
+        decltype(static_cast<int U::*>(nullptr)) = nullptr
+    );
+
+public :
+
+    constexpr static auto value = decltype(test<T>(0))::value;
+};
+
+template <typename T>
+constexpr auto is_class_v = is_class<T>::value;
+
+
+
+template<typename T> struct add_const
+{
+    using type = const T;
+};
+
+template<typename T>
+using add_const_t = typename add_const<T>::type;
+
+
+
+template<typename T> struct remove_const
+{
+    using type = T;
+};
+
+template<typename T> struct remove_const<T const>
+{
+    using type = T;
+};
+
+template<typename T>
+using remove_const_t = typename remove_const<T>::type;
+
+
+
+template<bool Cond, typename IfTrue, typename IfFalse> struct conditional
+{
+    using type = IfTrue;
+};
+
+template<typename IfTrue, typename IfFalse> struct conditional<false, IfTrue, IfFalse>
+{
+    using type = IfFalse;
+};
+
+template<bool Cond, typename IfTrue, typename IfFalse>
+using conditional_t = typename conditional<Cond, IfTrue, IfFalse>::type;
+
+
+
+template<typename U>
+struct decay_selector
+  : conditional_t<std::is_const<const U>::value, // false for functions
+            remove_const<U>,
+            std::add_pointer<U>>		  // function decays to pointer
+  { };
+
+template<typename U, size_t N> struct decay_selector<U[N]>
+{
+    using type = U*;
+};
+
+template<typename U> struct decay_selector<U[]>
+{
+    using type = U*;
+};
+
+
+template<typename T> struct decay
+{
+    using type = typename decay_selector<T>::type;
+};
+
+template<typename T> struct decay<T&>
+{
+    using type = typename decay_selector<T>::type;
+};
+
+template<typename T> struct decay<T&&>
+{
+    using type = typename decay_selector<T>::type;
+};
+
+template<typename T>
+using decay_t = typename decay<T>::type;
+
+
+
+int main()
+{
+    struct MyStruct {};
+    class MyClass {};
+    enum MyEnum {};
+    static_assert(is_class_v<double> == false);
+    static_assert(is_class_v<std::string> == true);
+    static_assert(is_class_v<MyStruct> == true);
+    static_assert(is_class_v<MyStruct*> == false);
+    static_assert(is_class_v<MyClass> == true);
+    static_assert(is_class_v<MyClass&> == false);
+    static_assert(is_class_v<MyEnum> == false);
+
+    static_assert(std::is_same_v<add_const_t<int>, const int>);
+    static_assert(std::is_same_v<remove_const_t<const int>, int>);
+}
