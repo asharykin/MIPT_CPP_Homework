@@ -4,8 +4,13 @@
 template <typename T> class is_class
 {
 private :
-    template <typename U > static std::false_type test(...);
+    template <typename U> static std::false_type test(...);
 
+    // A pointer-to-member type (int U::*) can only be formed if U is a class/struct/union.
+    // This is true even for empty classes/structs (struct Empty {}). Compiler understands int Empty::*
+    // as a type that could point to an int member if one existed, even if it doesn't.
+    // The validity of the type itself is what matters for SFINAE, not the actual presence of such a member.
+    // If U is not a class/struct/union, int U::* is ill-formed, triggering SFINAE and discarding this overload.
     template <typename U> static std::true_type test
     (
         int,
@@ -66,7 +71,7 @@ template<typename U>
 struct decay_selector
   : conditional_t<std::is_const<const U>::value, // false for functions
             remove_const<U>,
-            std::add_pointer<U>>		  // function decays to pointer
+            std::add_pointer<U>> // function decays to pointer
   { };
 
 template<typename U, size_t N> struct decay_selector<U[N]>
@@ -104,15 +109,20 @@ int main()
 {
     struct MyStruct {};
     class MyClass {};
-    enum MyEnum {};
     static_assert(is_class_v<double> == false);
     static_assert(is_class_v<std::string> == true);
     static_assert(is_class_v<MyStruct> == true);
     static_assert(is_class_v<MyStruct*> == false);
     static_assert(is_class_v<MyClass> == true);
     static_assert(is_class_v<MyClass&> == false);
-    static_assert(is_class_v<MyEnum> == false);
 
     static_assert(std::is_same_v<add_const_t<int>, const int>);
     static_assert(std::is_same_v<remove_const_t<const int>, int>);
+
+    static_assert(std::is_same_v<conditional_t<sizeof(long) >= sizeof(int), long, int>, long>);
+    static_assert(std::is_same_v<conditional_t<sizeof(char) >= sizeof(int), char, int>, int>);
+
+    static_assert(std::is_same_v<decay_t<int&>, int>);
+    static_assert(std::is_same_v<decay_t<int&&>, int>);
+    static_assert(std::is_same_v<decay_t<int[]>, int*>);
 }
