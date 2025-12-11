@@ -4,7 +4,6 @@
 #include <vector>
 #include <ranges>
 
-
 template <typename T> void order(T& vector, std::size_t left, std::size_t right)
 {
     for (auto i = left + 1; i < right; ++i)
@@ -50,7 +49,6 @@ template <typename T> void quick_split(T& vector, std::size_t left, std::size_t 
     if (pivot_index + 1 < right) quick_split(vector, pivot_index + 1, right);
 }
 
-
 template <typename T> void sort(T& vector)
 {
     quick_split(vector, 0, vector.size());
@@ -60,13 +58,10 @@ int main()
 {
     int size = 1000;
     std::vector<int> vector(size);
-
     for (auto i = 0; i < size; i++)
     {
         vector[i] = size - i;
     }
-
     sort(vector);
-
     assert(std::ranges::is_sorted(vector));
 }
