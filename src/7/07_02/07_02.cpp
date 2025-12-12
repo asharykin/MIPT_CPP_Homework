@@ -5,7 +5,7 @@
 #include <variant>
 #include <vector>
 
-#include "rational.cpp"
+#include "rational.hpp"
 
 bool equals(double x, double y, double epsilon = 0.00001)
 {
